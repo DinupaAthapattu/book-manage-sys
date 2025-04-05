@@ -1,0 +1,357 @@
+/* Reset and Base Styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Poppins', sans-serif;
+  background: linear-gradient(135deg, #f0f4f8, #d9e2ec);
+  min-height: 100vh;
+  color: #333;
+  margin: 0;
+}
+
+/* Container - Full page centering */
+.container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  padding: 40px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+/* Page Title */
+h1 {
+  font-size: 36px;
+  font-weight: 600;
+  color: #2c3e50;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+/* Header section for search and actions */
+.books-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.search-box {
+  display: flex;
+  gap: 10px;
+}
+
+.search-box input {
+  padding: 10px;
+  border-radius: 5px;
+  border: 2px solid #ddd;
+  width: 300px;
+  font-size: 16px;
+}
+
+.search-box button {
+  padding: 10px 20px;
+  background: #3498db;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: 0.3s;
+}
+
+.search-box button:hover {
+  background: #2980b9;
+}
+
+/* Table Styling */
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: #fff;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.table th,
+.table td {
+  padding: 15px;
+  text-align: left;
+}
+
+.table th {
+  background-color: #2c3e50;
+  color: white;
+}
+
+.table tr:nth-child(even) {
+  background-color: #f9fbfc;
+}
+
+.table tr:hover {
+  background-color: #eef2f7;
+}
+
+.table-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.table-actions button {
+  padding: 8px 16px;
+  font-size: 14px;
+  border-radius: 5px;
+  border: none;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.table-actions button:hover {
+  transform: translateY(-2px);
+}
+
+/* Pagination Styling */
+.pagination {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.pagination-btn {
+  padding: 8px 16px;
+  margin: 0 5px;
+  background: #ecf0f1;
+  color: #2c3e50;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.pagination-btn:hover {
+  background: #3498db;
+  color: white;
+}
+
+.pagination-btn.active {
+  background: #3498db;
+  color: white;
+}
+
+/* General Button Styling */
+.btn {
+  padding: 12px 24px;
+  border-radius: 25px;
+  background-color: #3498db;
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+  border: none;
+  transition: all 0.3s ease;
+  margin-top: 20px;
+}
+
+.btn:hover {
+  background-color: #2980b9;
+}
+
+/* Error Text */
+.error-text {
+  color: #e74c3c;
+  font-size: 14px;
+  margin-top: 10px;
+}
+
+/* Form Box */
+.form-box {
+  background-color: white;
+  padding: 40px;
+  border-radius: 15px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 500px;
+  margin-top: 30px;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.form input {
+  padding: 12px;
+  border-radius: 8px;
+  border: 2px solid #ddd;
+  font-size: 16px;
+  transition: border-color 0.3s ease;
+}
+
+.form input:focus {
+  border-color: #3498db;
+  box-shadow: 0 0 5px rgba(52, 152, 219, 0.3);
+}
+
+.form button {
+  background-color: #3498db;
+  color: white;
+  font-size: 16px;
+  padding: 12px;
+  border: none;
+  border-radius: 25px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.form button:hover {
+  background-color: #2980b9;
+}
+
+.form .error-text {
+  font-size: 14px;
+  color: #e74c3c;
+}
+
+/* Profile Styling */
+.profile-box {
+  background-color: white;
+  padding: 40px;
+  border-radius: 15px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+  max-width: 600px;
+  width: 100%;
+  margin-top: 20px;
+}
+
+.profile-item {
+  font-size: 16px;
+  margin: 10px 0;
+}
+
+.profile-item strong {
+  color: #3498db;
+}
+
+.profile-actions {
+  display: flex;
+  gap: 20px;
+  margin-top: 30px;
+}
+
+/* Auth Pages Styling */
+.auth-box {
+  background-color: white;
+  padding: 40px;
+  border-radius: 15px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+  max-width: 400px;
+  width: 100%;
+  margin-top: 30px;
+}
+
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.auth-form input {
+  padding: 12px;
+  border-radius: 8px;
+  border: 2px solid #ddd;
+  font-size: 16px;
+}
+
+.auth-form button {
+  background-color: #3498db;
+  color: white;
+  padding: 12px;
+  font-size: 16px;
+  border: none;
+  border-radius: 25px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.auth-form button:hover {
+  background-color: #2980b9;
+}
+
+.auth-box .error-text {
+  font-size: 14px;
+  color: #e74c3c;
+}
+
+/* Login/Register Specific */
+.login-register-btn {
+  background-color: #3498db;
+  color: white;
+  font-size: 16px;
+  padding: 12px;
+  border: none;
+  border-radius: 25px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.login-register-btn:hover {
+  background-color: #2980b9;
+}
+
+.login-register-btn.outlined {
+  background: transparent;
+  border: 2px solid #3498db;
+  color: #3498db;
+}
+
+.login-register-btn.outlined:hover {
+  background: #3498db;
+  color: white;
+}
+
+/* Homepage Styling */
+.home-box {
+  background-color: white;
+  padding: 40px;
+  border-radius: 15px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  max-width: 600px;
+  width: 100%;
+  margin-top: 40px;
+}
+
+.home-subtitle {
+  font-size: 18px;
+  color: #666;
+  margin-bottom: 20px;
+}
+
+.home-features {
+  font-size: 16px;
+  color: #555;
+  line-height: 1.6;
+  margin-bottom: 30px;
+}
+
+.home-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+}
+
+/* General Button Sizes Fix */
+.btn, .login-register-btn, .add-book-btn, .btn-outline {
+  padding: 12px 24px;
+  font-size: 16px;
+  border-radius: 25px;
+}
+
