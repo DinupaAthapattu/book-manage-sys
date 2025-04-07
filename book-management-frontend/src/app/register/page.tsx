@@ -1,10 +1,11 @@
+
+
 // 'use client';
 
 // import { useState } from 'react';
 // import { useMutation, gql } from '@apollo/client';
-// import { TextField, Button, Typography, Container, Box } from '@mui/material';
 // import { useRouter } from 'next/navigation';
-// import toast from 'react-hot-toast'; // Add this import
+// import toast from 'react-hot-toast';
 
 // const REGISTER_MUTATION = gql`
 //   mutation Register($username: String!, $password: String!) {
@@ -30,35 +31,31 @@
 //   };
 
 //   return (
-//     <Container maxWidth="sm">
-//       <Box sx={{ mt: 8, textAlign: 'center' }}>
-//         <Typography variant="h4" gutterBottom>Register</Typography>
-//         <form onSubmit={handleSubmit}>
-//           <TextField
-//             label="Username"
-//             fullWidth
-//             margin="normal"
+//     <div className="container">
+//       <div className="auth-box">
+//         <h1>Register</h1>
+//         <form className="auth-form" onSubmit={handleSubmit}>
+//           <input
+//             type="text"
+//             placeholder="Username"
 //             value={username}
 //             onChange={(e) => setUsername(e.target.value)}
 //           />
-//           <TextField
-//             label="Password"
+//           <input
 //             type="password"
-//             fullWidth
-//             margin="normal"
+//             placeholder="Password"
 //             value={password}
 //             onChange={(e) => setPassword(e.target.value)}
 //           />
-//           <Button type="submit" variant="contained" sx={{ mt: 2 }}>
-//             Register
-//           </Button>
-//           {error && <Typography color="error">{error.message}</Typography>}
+//           <button type="submit" className="btn">Register</button>
+//           {error && <p className="error-text">{error.message}</p>}
 //         </form>
-//         <Button onClick={() => router.push('/login')} sx={{ mt: 2 }}>
+        
+//         {/* <button className="login-register-btn.outlined" onClick={() => router.push('/login')}>
 //           Back to Login
-//         </Button>
-//       </Box>
-//     </Container>
+//         </button> */}
+//       </div>
+//     </div>
 //   );
 // }
 
@@ -68,12 +65,45 @@ import { useState } from 'react';
 import { useMutation, gql } from '@apollo/client';
 import { useRouter } from 'next/navigation';
 import toast from 'react-hot-toast';
+import {
+  Container,
+  Box,
+  Typography,
+  TextField,
+  Button,
+  Alert,
+  styled,
+} from '@mui/material';
 
 const REGISTER_MUTATION = gql`
   mutation Register($username: String!, $password: String!) {
     register(username: $username, password: $password)
   }
 `;
+
+const StyledContainer = styled(Container)(({ theme }) => ({
+  minHeight: '100vh',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  padding: theme.spacing(2),
+}));
+
+const AuthBox = styled(Box)(({ theme }) => ({
+  backgroundColor: theme.palette.background.paper,
+  padding: theme.spacing(4),
+  borderRadius: theme.shape.borderRadius,
+  boxShadow: theme.shadows[4],
+  width: '100%',
+  maxWidth: 400,
+}));
+
+const Form = styled('form')(({ theme }) => ({
+  display: 'flex',
+  flexDirection: 'column',
+  gap: theme.spacing(2),
+  marginBottom: theme.spacing(2),
+}));
 
 export default function Register() {
   const [username, setUsername] = useState('');
@@ -93,30 +123,58 @@ export default function Register() {
   };
 
   return (
-    <div className="container">
-      <div className="auth-box">
-        <h1>Register</h1>
-        <form className="auth-form" onSubmit={handleSubmit}>
-          <input
-            type="text"
-            placeholder="Username"
+    <StyledContainer>
+      <AuthBox>
+        <Typography variant="h4" component="h1" align="center" gutterBottom>
+          Register
+        </Typography>
+
+        <Form onSubmit={handleSubmit}>
+          <TextField
+            label="Username"
+            variant="outlined"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
+            fullWidth
+            required
           />
-          <input
+          <TextField
+            label="Password"
             type="password"
-            placeholder="Password"
+            variant="outlined"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
+            fullWidth
+            required
           />
-          <button type="submit" className="btn">Register</button>
-          {error && <p className="error-text">{error.message}</p>}
-        </form>
-        
-        {/* <button className="login-register-btn.outlined" onClick={() => router.push('/login')}>
+          <Button
+            type="submit"
+            variant="contained"
+            color="primary"
+            size="large"
+            fullWidth
+          >
+            Register
+          </Button>
+        </Form>
+
+        {error && (
+          <Alert severity="error" sx={{ mb: 2 }}>
+            {error.message}
+          </Alert>
+        )}
+
+        {/* Uncomment if you want to keep the Back to Login button */}
+        {/* <Button
+          variant="outlined"
+          color="primary"
+          size="large"
+          fullWidth
+          onClick={() => router.push('/login')}
+        >
           Back to Login
-        </button> */}
-      </div>
-    </div>
+        </Button> */}
+      </AuthBox>
+    </StyledContainer>
   );
 }

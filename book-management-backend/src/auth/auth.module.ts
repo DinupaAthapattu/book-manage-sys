@@ -5,7 +5,7 @@ import { JwtModule } from '@nestjs/jwt';
 
 @Module({
   imports: [
-    forwardRef(() => UsersModule), // Use forwardRef to break the circular dependency
+    forwardRef(() => UsersModule), 
     JwtModule.register({
       secret: 'your-secret-key',
       signOptions: { expiresIn: '1h' },

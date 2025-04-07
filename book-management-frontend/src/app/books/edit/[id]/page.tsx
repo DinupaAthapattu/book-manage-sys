@@ -1,10 +1,10 @@
+
 // 'use client';
 
 // import { useState, useEffect } from 'react';
 // import { useMutation, useQuery, gql } from '@apollo/client';
-// import { TextField, Button, Typography, Container, Box } from '@mui/material';
 // import { useRouter, useParams } from 'next/navigation';
-// import toast from 'react-hot-toast'; // Add this import
+// import toast from 'react-hot-toast';
 
 // const GET_BOOK = gql`
 //   query Book($id: String!) {
@@ -50,10 +50,10 @@
 //     }
 //   }, [data]);
 
-//   if (loading) return <Typography>Loading...</Typography>;
+//   if (loading) return <p>Loading...</p>;
 //   if (error) {
 //     toast.error('Failed to load book data.');
-//     return <Typography color="error">{error.message}</Typography>;
+//     return <p className="error-text">{error.message}</p>;
 //   }
 
 //   const handleSubmit = async (e: React.FormEvent) => {
@@ -79,46 +79,39 @@
 //   };
 
 //   return (
-//     <Container maxWidth="sm">
-//       <Box sx={{ mt: 8 }}>
-//         <Typography variant="h4" gutterBottom>Edit Book</Typography>
-//         <form onSubmit={handleSubmit}>
-//           <TextField
-//             label="Title"
-//             fullWidth
-//             margin="normal"
+//     <div className="container">
+//       <div className="form-box">
+//         <h1>Edit Book</h1>
+//         <form className="form" onSubmit={handleSubmit}>
+//           <input
+//             type="text"
+//             placeholder="Title"
 //             value={title}
 //             onChange={(e) => setTitle(e.target.value)}
 //           />
-//           <TextField
-//             label="Author"
-//             fullWidth
-//             margin="normal"
+//           <input
+//             type="text"
+//             placeholder="Author"
 //             value={author}
 //             onChange={(e) => setAuthor(e.target.value)}
 //           />
-//           <TextField
-//             label="Published Year"
+//           <input
 //             type="number"
-//             fullWidth
-//             margin="normal"
+//             placeholder="Published Year"
 //             value={publishedYear}
 //             onChange={(e) => setPublishedYear(e.target.value)}
 //           />
-//           <TextField
-//             label="Genre"
-//             fullWidth
-//             margin="normal"
+//           <input
+//             type="text"
+//             placeholder="Genre"
 //             value={genre}
 //             onChange={(e) => setGenre(e.target.value)}
 //           />
-//           <Button type="submit" variant="contained" sx={{ mt: 2 }}>
-//             Update Book
-//           </Button>
-//           {updateError && <Typography color="error">{updateError.message}</Typography>}
+//           <button type="submit" className="btn">Update Book</button>
+//           {updateError && <p className="error-text">{updateError.message}</p>}
 //         </form>
-//       </Box>
-//     </Container>
+//       </div>
+//     </div>
 //   );
 // }
 
@@ -128,6 +121,16 @@ import { useState, useEffect } from 'react';
 import { useMutation, useQuery, gql } from '@apollo/client';
 import { useRouter, useParams } from 'next/navigation';
 import toast from 'react-hot-toast';
+import {
+  Container,
+  Box,
+  Typography,
+  TextField,
+  Button,
+  CircularProgress,
+  Alert,
+  styled,
+} from '@mui/material';
 
 const GET_BOOK = gql`
   query Book($id: String!) {
@@ -153,6 +156,35 @@ const UPDATE_BOOK = gql`
   }
 `;
 
+const StyledContainer = styled(Container)(({ theme }) => ({
+  padding: theme.spacing(3),
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
+  minHeight: '100vh',
+}));
+
+const FormBox = styled(Box)(({ theme }) => ({
+  backgroundColor: theme.palette.background.paper,
+  padding: theme.spacing(4),
+  borderRadius: theme.shape.borderRadius,
+  boxShadow: theme.shadows[4],
+  width: '100%',
+  maxWidth: 500,
+}));
+
+const Form = styled('form')(({ theme }) => ({
+  display: 'flex',
+  flexDirection: 'column',
+  gap: theme.spacing(2),
+}));
+
+const ButtonContainer = styled(Box)(({ theme }) => ({
+  display: 'flex',
+  gap: theme.spacing(2),
+  marginTop: theme.spacing(2),
+}));
+
 export default function EditBook() {
   const router = useRouter();
   const { id } = useParams();
@@ -162,7 +194,13 @@ export default function EditBook() {
   const [genre, setGenre] = useState('');
 
   const { data, loading, error } = useQuery(GET_BOOK, { variables: { id } });
-  const [updateBook, { error: updateError }] = useMutation(UPDATE_BOOK);
+  const [updateBook, { error: updateError, loading: updateLoading }] = useMutation(UPDATE_BOOK, {
+    onCompleted: () => {
+      toast.success('Book updated successfully!');
+      router.push('/books');
+    },
+    onError: () => toast.error('Failed to update book.'),
+  });
 
   useEffect(() => {
     if (data && data.book) {
@@ -173,10 +211,21 @@ export default function EditBook() {
     }
   }, [data]);
 
-  if (loading) return <p>Loading...</p>;
+  if (loading) {
+    return (
+      <StyledContainer>
+        <CircularProgress />
+      </StyledContainer>
+    );
+  }
+
   if (error) {
     toast.error('Failed to load book data.');
-    return <p className="error-text">{error.message}</p>;
+    return (
+      <StyledContainer>
+        <Alert severity="error">{error.message}</Alert>
+      </StyledContainer>
+    );
   }
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -190,50 +239,83 @@ export default function EditBook() {
       toast.error('Published Year must be a valid number.');
       return;
     }
-    try {
-      await updateBook({
-        variables: { id, title, author, publishedYear: publishedYearNum, genre },
-      });
-      toast.success('Book updated successfully!');
-      router.push('/books');
-    } catch (err) {
-      toast.error('Failed to update book.');
-    }
+    await updateBook({
+      variables: { id, title, author, publishedYear: publishedYearNum, genre },
+    });
   };
 
   return (
-    <div className="container">
-      <div className="form-box">
-        <h1>Edit Book</h1>
-        <form className="form" onSubmit={handleSubmit}>
-          <input
-            type="text"
-            placeholder="Title"
+    <StyledContainer>
+      <FormBox>
+        <Typography variant="h4" component="h1" align="center" gutterBottom>
+          Edit Book
+        </Typography>
+
+        <Form onSubmit={handleSubmit}>
+          <TextField
+            label="Title"
+            variant="outlined"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
+            fullWidth
+            required
           />
-          <input
-            type="text"
-            placeholder="Author"
+          <TextField
+            label="Author"
+            variant="outlined"
             value={author}
             onChange={(e) => setAuthor(e.target.value)}
+            fullWidth
+            required
           />
-          <input
+          <TextField
+            label="Published Year"
             type="number"
-            placeholder="Published Year"
+            variant="outlined"
             value={publishedYear}
             onChange={(e) => setPublishedYear(e.target.value)}
+            fullWidth
+            required
+            inputProps={{ min: 0 }}
           />
-          <input
-            type="text"
-            placeholder="Genre"
+          <TextField
+            label="Genre"
+            variant="outlined"
             value={genre}
             onChange={(e) => setGenre(e.target.value)}
+            fullWidth
+            required
           />
-          <button type="submit" className="btn">Update Book</button>
-          {updateError && <p className="error-text">{updateError.message}</p>}
-        </form>
-      </div>
-    </div>
+          <ButtonContainer>
+            <Button
+              type="submit"
+              variant="contained"
+              color="primary"
+              size="large"
+              fullWidth
+              disabled={updateLoading}
+            >
+              {updateLoading ? 'Updating...' : 'Update Book'}
+            </Button>
+            <Button
+              variant="outlined"
+              color="secondary"
+              size="large"
+              fullWidth
+              onClick={() => router.push('/books')}
+              disabled={updateLoading}
+            >
+              Cancel
+            </Button>
+          </ButtonContainer>
+        </Form>
+
+        {updateError && (
+          <Alert severity="error" sx={{ mt: 2 }}>
+            {updateError.message}
+          </Alert>
+        )}
+      </FormBox>
+    </StyledContainer>
   );
 }
