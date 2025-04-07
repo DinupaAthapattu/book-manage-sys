@@ -11,8 +11,8 @@ export class AuthService {
 
   async validateUser(username: string, password: string): Promise<any> {
     const user = await this.usersService.validateUser(username, password);
-    if (user) { // Check for null explicitly
-      const { password, ...result } = user.toObject(); // Convert Mongoose doc to plain object
+    if (user) { 
+      const { password, ...result } = user.toObject(); 
       return result;
     }
     return null;

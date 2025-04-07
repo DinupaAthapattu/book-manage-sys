@@ -82,7 +82,7 @@ export default function Books() {
   const router = useRouter();
   const [page, setPage] = useState(1);
   const [searchInput, setSearchInput] = useState('');
-  const [searchQuery] = useDebounce(searchInput, 300);
+  const [searchQuery] = useDebounce(searchInput, 1000);
   const limit = 5;
 
   const { data, loading, error, refetch } = useQuery(GET_BOOKS, {
